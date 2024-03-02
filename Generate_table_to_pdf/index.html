@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <label for="dateInput">Enter Date:</label>
+    <input type="date" id="dateInput" />
+
+    <div>
+      <table id="dynamicTable" border="1">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Description</th>
+            <!-- Add more columns as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Add dynamic table rows here using JavaScript/HTML generation -->
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+            <td>Start soft, bland diet</td>
+            <!-- Add more data cells as needed -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button onclick="generatePDF()">Generate PDF</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

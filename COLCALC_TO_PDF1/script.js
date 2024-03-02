@@ -1,0 +1,5 @@
+function generatePDF() {
+  print();
+}
+
+generatePDF();
