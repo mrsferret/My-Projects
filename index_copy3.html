@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple example</title>
+  </head>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+  </style>
+  <body>
+    <div>
+      <label for="appointmentDate">Enter Appointment Date:</label>
+      <input type="date" id="appointmentDate" />
+      <button onclick="submitAppointment()">Submit</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.js"></script>
+
+    <div id="resultContainer" style="display: none">
+      <h2>Appointment Details</h2>
+      <table id="table" border="1">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentTableBody">
+          <!-- Data will be added dynamically here -->
+          <!-- 
+          <tr>
+            <td>3 March 2024</td>
+            <td>9pm</td>
+            <td>Start bland food diet/td></td>
+          </tr>
+          <tr>
+            <td>4 March 2024</td>
+            <td>7-9pm</td>
+            <td>Make up solution and drink</td>
+          </tr> -->
+        </tbody>
+      </table>
+      <button onclick="generatePDF()">Generate PDF</button>
+    </div>
+
+    <script>
+      function submitAppointment() {
+        // Get the entered appointment date
+        const appointmentDate =
+          document.getElementById("appointmentDate").value;
+
+        // Subtract 2 days from appointment date
+        let dateMinus2 = subtractTwoDays(appointmentDate);
+
+        // Perform calculations or data fetching based on the appointment date
+        // For demonstration purposes, let's assume some sample data
+        const appointmentData = [
+          { date: dateMinus2, time: "10:00 AM", action: "Meeting" },
+          { date: appointmentDate, time: "02:30 PM", action: "Follow-up" },
+          // Add more data as needed
+        ];
+
+        // Display the floating window with the appointment details
+        const resultContainer = document.getElementById("resultContainer");
+        resultContainer.style.display = "block";
+
+        // Populate the table with the appointment data
+        const appointmentTableBody = document.getElementById(
+          "appointmentTableBody"
+        );
+        appointmentTableBody.innerHTML = "";
+        appointmentData.forEach((appointment) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${appointment.date}</td><td>${appointment.time}</td><td>${appointment.action}</td>`;
+          appointmentTableBody.appendChild(row);
+        });
+      }
+
+      function subtractTwoDays(inputDate) {
+        // Get the date entered by the user from the input field
+        const userDateInput = inputDate;
+
+        // Create a Date object from the user input
+        const userDate = new Date(userDateInput);
+
+        // Subtract 2 days from the user date
+        const newDate = new Date(userDate);
+        newDate.setDate(userDate.getDate() - 2);
+
+        return newDate;
+
+        // Display the new date on the console
+        //console.log("Original Date:", userDate.toDateString());
+        //console.log(
+        //  "New Date (after subtracting 2 days):",
+        // newDate.toDateString()
+        //);
+      }
+
+      function generatePDF() {
+        var doc = new jspdf.jsPDF();
+
+        // Simple data example
+        //var head = [["ID", "Country", "Rank", "Capital"]];
+        //var body = [
+        // [1, "Denmark", 7.526, "Copenhagen"],
+        //  [2, "Switzerland", 7.509, "Bern"],
+        //  [3, "Iceland", 7.501, "Reykjavík"],
+        //];
+        //doc.autoTable({ head: head, body: body });
+
+        // Simple html example
+        doc.autoTable({ html: "#table" });
+
+        doc.save("table.pdf");
+      }
+    </script>
+  </body>
+</html>
