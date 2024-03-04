@@ -19,6 +19,8 @@
     <div>
       <label for="appointmentDate">Enter Appointment Date:</label>
       <input type="date" id="appointmentDate" />
+      <label for="appointmentTime">Enter Appointment Time:</label>
+      <input type="time" id="appointmentTime" />
       <button onclick="submitAppointment()">Submit</button>
     </div>
 
@@ -37,17 +39,6 @@
         </thead>
         <tbody id="appointmentTableBody">
           <!-- Data will be added dynamically here -->
-          <!-- 
-          <tr>
-            <td>3 March 2024</td>
-            <td>9pm</td>
-            <td>Start bland food diet/td></td>
-          </tr>
-          <tr>
-            <td>4 March 2024</td>
-            <td>7-9pm</td>
-            <td>Make up solution and drink</td>
-          </tr> -->
         </tbody>
       </table>
       <button onclick="generatePDF()">Generate PDF</button>
@@ -58,15 +49,38 @@
         // Get the entered appointment date
         const appointmentDate =
           document.getElementById("appointmentDate").value;
+        // Get the entered appointment time
+        const appointmentTime =
+          document.getElementById("appointmentTime").value;
 
-        // Subtract 2 days from appointment date
-        let dateMinus2 = subtractTwoDays(appointmentDate);
+        // Subtract 2 day from appointment date and return formatted date
+        let dateMinus2 = subtractDays(appointmentDate, 2);
+
+        // Subtract 1 days from appointment date and return formatted date
+        let dateMinus1 = subtractDays(appointmentDate, 1);
+
+        // return formatted date
+        let dateMinus0 = subtractDays(appointmentDate, 0);
+
+        // Subtract 4 hours from appointment time
+        let timeMinus4 = subtractHours(appointmentTime, 4);
+
+        console.log("timeMinus4: ", timeMinus4);
 
         // Perform calculations or data fetching based on the appointment date
         // For demonstration purposes, let's assume some sample data
         const appointmentData = [
-          { date: dateMinus2, time: "10:00 AM", action: "Meeting" },
-          { date: appointmentDate, time: "02:30 PM", action: "Follow-up" },
+          { date: dateMinus2, time: "10:00 AM", action: "Eat bland diet" },
+          {
+            date: dateMinus1,
+            time: "All Day",
+            action: "Fast but allowed to drink clear fluids",
+          },
+          {
+            date: dateMinus0,
+            time: timeMinus4,
+            action: "Do not eat or drink anything after this time",
+          },
           // Add more data as needed
         ];
 
@@ -86,18 +100,38 @@
         });
       }
 
-      function subtractTwoDays(inputDate) {
+      function subtractDays(inputDate, numDays) {
         // Get the date entered by the user from the input field
         const userDateInput = inputDate;
 
         // Create a Date object from the user input
         const userDate = new Date(userDateInput);
 
-        // Subtract 2 days from the user date
+        // Subtract the specified no of days from the user date
         const newDate = new Date(userDate);
-        newDate.setDate(userDate.getDate() - 2);
+        newDate.setDate(userDate.getDate() - numDays);
 
-        return newDate;
+        const months = [
+          "Jan",
+          "Feb",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "Aug",
+          "Sept",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        let month = months[newDate.getMonth()];
+        let year = newDate.getFullYear();
+        let day = newDate.getDate();
+        let formattedDate = day + " " + month + " " + year;
+
+        return formattedDate;
 
         // Display the new date on the console
         //console.log("Original Date:", userDate.toDateString());
@@ -105,6 +139,31 @@
         //  "New Date (after subtracting 2 days):",
         // newDate.toDateString()
         //);
+      }
+
+      function subtractHours(inputTime, numHours) {
+        // Get the time entered by the user from the input field
+        const userTimeInput = inputTime;
+        console.log("inputTime: ", inputTime);
+
+        // Create a Date object with a fixed date and the user-entered time
+        const userDateTime = new Date(`2000-01-01T${userTimeInput}`);
+
+        // Subtract 4 hours from the user time
+        userDateTime.setHours(userDateTime.getHours() - numHours);
+        console.log("userDateTime: ", userDateTime);
+
+        // Format the new time
+        const newTime = userDateTime.toLocaleTimeString("en-UK", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        return newTime;
+
+        // Display the new time on the console
+        //console.log("Original Time:", userTimeInput);
+        //console.log("New Time (after subtracting 4 hours):", newTime);
       }
 
       function generatePDF() {

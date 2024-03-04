@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <label for="userTimeInput">Enter Time (24hr format):</label>
+      <input type="time" id="userTimeInput" />
+      <button onclick="subtractFourHours()">Subtract 4 Hours</button>
+    </div>
+
+    <script>
+      function subtractFourHours() {
+        // Get the time entered by the user from the input field
+        const userTimeInput = document.getElementById("userTimeInput").value;
+
+        // Create a Date object with a fixed date and the user-entered time
+        const userDateTime = new Date(`2000-01-01T${userTimeInput}`);
+
+        // Subtract 4 hours from the user time
+        userDateTime.setHours(userDateTime.getHours() - 4);
+
+        // Format the new time
+        const newTime = userDateTime.toLocaleTimeString("en-US", {
+          hour12: false,
+        });
+
+        // Display the new time on the console
+        console.log("Original Time:", userTimeInput);
+        console.log("New Time (after subtracting 4 hours):", newTime);
+      }
+    </script>
+  </body>
+</html>
